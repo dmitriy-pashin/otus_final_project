@@ -1,0 +1,15 @@
+app:
+  debug: false
+  environment: "prod"
+db:
+  host: "localhost"
+  port: "5432"
+  user: "otus"
+  password: "otus"
+  dbname: "antibf"
+  charset: "UTF8"
+  sslmode: "disable"
+limits:
+  login: 10
+  password: 100
+  ip: 1000
