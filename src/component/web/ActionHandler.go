@@ -17,10 +17,9 @@ type actionHandler struct {
 }
 
 func (h *actionHandler) Handle(action Action, response http.ResponseWriter, request *http.Request) {
-	var content = action(response, request)
-	var statusCode = h.getStatusCode(content.Error(), content.StatusCode())
+	content := action(response, request)
+	statusCode := h.getStatusCode(content.Error(), content.StatusCode())
 
-	// log
 	log.Print(content.Error())
 
 	response.WriteHeader(statusCode)
@@ -32,7 +31,7 @@ func (h *actionHandler) Handle(action Action, response http.ResponseWriter, requ
 }
 
 func (h *actionHandler) getStatusCode(err error, forcedCode int) int {
-	var statusCode = http.StatusOK
+	statusCode := http.StatusOK
 
 	if forcedCode != 0 {
 		statusCode = forcedCode

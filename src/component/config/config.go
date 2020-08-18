@@ -2,9 +2,10 @@ package config
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
 	"log"
 	"os"
+
+	"github.com/spf13/viper"
 )
 
 const (
@@ -41,7 +42,7 @@ type Database struct {
 }
 
 func NewConfig(configPath string, fileName string, fileExtension string) *Config {
-	var configData = Config{
+	configData := Config{
 		filePath:      configPath,
 		fileName:      fileName,
 		fileExtension: fileExtension,
@@ -75,8 +76,8 @@ func (config *Config) Fill() {
 		log.Fatalln(err)
 	}
 
-	//merge local config
-	var localFullNameLocalFile = fmt.Sprintf("%s/%s.%s", config.filePath, config.fileNameLocal(), config.fileExtension)
+	// merge local config
+	localFullNameLocalFile := fmt.Sprintf("%s/%s.%s", config.filePath, config.fileNameLocal(), config.fileExtension)
 	if config.isExistsFile(localFullNameLocalFile) {
 		config.configurator.SetConfigName(config.fileNameLocal())
 		if err := config.configurator.MergeInConfig(); err != nil {

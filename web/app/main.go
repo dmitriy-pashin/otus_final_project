@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"otus_final_project/src/component/app"
+
+	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
 const (
@@ -11,7 +13,7 @@ const (
 )
 
 func main() {
-	var appName = "Web"
+	appName := "Web"
 	confApp := app.InitConfig(DefaultConfigPath)
 	application := app.NewWeb(confApp, app.DefaultWebAppPort)
 

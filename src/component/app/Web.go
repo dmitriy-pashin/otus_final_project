@@ -1,14 +1,16 @@
 package app
 
 import (
+	"context"
 	"fmt"
-	"github.com/gorilla/mux"
-	log "github.com/sirupsen/logrus"
+	"log"
 	"net/http"
 	"otus_final_project/src/component/config"
 	"otus_final_project/src/component/web"
 	"otus_final_project/src/controller"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 const (
@@ -38,7 +40,7 @@ func NewWeb(conf *config.Config, port int) *Web {
 }
 
 func (app *Web) Run() {
-	var listenAddress = fmt.Sprintf(":%d", app.port)
+	listenAddress := fmt.Sprintf(":%d", app.port)
 
 	app.server = &http.Server{
 		Addr:         listenAddress,
@@ -49,18 +51,17 @@ func (app *Web) Run() {
 
 	fmt.Printf("\nStart listen addr %s\n", listenAddress)
 	err := app.server.ListenAndServe()
-
 	if err != nil {
-		log.Errorln(err)
+		log.Println(err)
 	}
 }
 
 func (app *Web) Close() {
 	defer app.Base.Close()
 
-	var err = app.server.Shutdown(nil)
+	err := app.server.Shutdown(context.TODO())
 	if err != nil {
-		log.Errorln(err)
+		log.Println(err)
 	}
 }
 
@@ -72,9 +73,9 @@ func (app *Web) addRoutes() {
 	app.router = mux.NewRouter()
 	r := app.router
 
-	var contBlacklist = app.Container().Get("app.controller.blacklist").(*controller.Blacklist)
-	var contWhitelist = app.Container().Get("app.controller.whitelist").(*controller.Whitelist)
-	var contLogin = app.Container().Get("app.controller.login").(*controller.Login)
+	contBlacklist := app.Container().Get("app.controller.blacklist").(*controller.Blacklist)
+	contWhitelist := app.Container().Get("app.controller.whitelist").(*controller.Whitelist)
+	contLogin := app.Container().Get("app.controller.login").(*controller.Login)
 
 	handleActionAddToBlacklist := func(writer http.ResponseWriter, request *http.Request) {
 		web.HandleAPIAction(contBlacklist.ActionAdd, writer, request)

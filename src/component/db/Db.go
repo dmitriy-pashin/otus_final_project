@@ -3,7 +3,6 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/jackc/pgx/v4/stdlib"
 	"log"
 	"otus_final_project/src/component/config"
 )

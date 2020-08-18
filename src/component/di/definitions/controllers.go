@@ -1,13 +1,14 @@
 package definitions
 
 import (
-	"github.com/sarulabs/di"
 	"otus_final_project/src/component/config"
 	"otus_final_project/src/controller"
+
+	"github.com/sarulabs/di"
 )
 
 func Controllers(configApp *config.Config) []di.Def {
-	var definitions = []di.Def{
+	definitions := []di.Def{
 		{
 			Name:  "app.controller.blacklist",
 			Scope: di.App,

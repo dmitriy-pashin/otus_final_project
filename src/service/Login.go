@@ -1,10 +1,11 @@
 package service
 
 import (
-	"github.com/kevinms/leakybucket-go"
 	"net"
 	"otus_final_project/src/component/config"
 	"otus_final_project/src/repository"
+
+	"github.com/kevinms/leakybucket-go"
 )
 
 type Login struct {
@@ -26,7 +27,7 @@ func NewLogin(whitelist *repository.Whitelist, blacklist *repository.Blacklist, 
 }
 
 func (cont *Login) Login(ip net.IP, login string, password string) bool {
-	//TODO добавть кеширование
+	// TODO добавть кеширование
 	if cont.repBlacklist.IsBlacklisted(ip) {
 		return false
 	}
@@ -67,6 +68,6 @@ func NewBucketsCollector(limitPerMinute int) BucketsCollector {
 func (bc *BucketsCollector) Add(key string) bool {
 	n := bc.collector.Add(key, bc.elementWeight)
 
-	//fmt.Print("N = ", n, " Weight = ", bc.elementWeight, " CHECK: = ", n == bc.elementWeight, " COUNT: = ",bc.collector.Count(key), "\n")
+	// fmt.Print("N = ", n, " Weight = ", bc.elementWeight, " CHECK: = ", n == bc.elementWeight, " COUNT: = ",bc.collector.Count(key), "\n")
 	return n == bc.elementWeight
 }

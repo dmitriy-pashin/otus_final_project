@@ -1,13 +1,14 @@
 package app
 
 import (
-	"github.com/sarulabs/di"
-	log "github.com/sirupsen/logrus"
 	"os"
 	"os/signal"
 	"otus_final_project/src/component/config"
 	componentDi "otus_final_project/src/component/di"
 	"syscall"
+
+	"github.com/sarulabs/di"
+	log "github.com/sirupsen/logrus"
 )
 
 type Base struct {
@@ -57,7 +58,7 @@ func InitConfig(configPath string, fileParams ...string) *config.Config {
 
 		count++
 	}
-	var conf = config.NewConfig(configPath, fileName, fileExtension)
+	conf := config.NewConfig(configPath, fileName, fileExtension)
 
 	conf.Fill()
 
@@ -66,7 +67,7 @@ func InitConfig(configPath string, fileParams ...string) *config.Config {
 
 func WaitStopSignal() os.Signal {
 	var takenSignal os.Signal
-	var ch = make(chan os.Signal, 1)
+	ch := make(chan os.Signal, 1)
 
 	signal.Notify(ch,
 		os.Interrupt,

@@ -30,7 +30,6 @@ func (cont *Blacklist) ActionAdd(response http.ResponseWriter, request *http.Req
 	ip := request.FormValue("ip")
 
 	_, ipnet, err := net.ParseCIDR(ip)
-
 	if err != nil {
 		return web.NewActionResult(web.DefaultFailContent, http.StatusBadRequest, err)
 	}
@@ -48,7 +47,6 @@ func (cont *Blacklist) ActionDelete(response http.ResponseWriter, request *http.
 	ip := request.FormValue("ip")
 
 	_, ipnet, err := net.ParseCIDR(ip)
-
 	if err != nil {
 		return web.NewActionResult(web.DefaultFailContent, http.StatusBadRequest, err)
 	}

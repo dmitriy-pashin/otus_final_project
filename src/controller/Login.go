@@ -26,7 +26,6 @@ func (cont *Login) ActionLogin(response http.ResponseWriter, request *http.Reque
 	password := request.FormValue("password")
 
 	address, _, err := net.ParseCIDR(ip)
-
 	if err != nil {
 		return web.NewActionResult(web.DefaultFailContent, http.StatusBadRequest, err)
 	}
