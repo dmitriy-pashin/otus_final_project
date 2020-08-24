@@ -30,7 +30,7 @@ func (repository *Blacklist) Delete(ip *net.IPNet) (bool, error) {
 	return true, nil
 }
 
-func (repository *Blacklist) IsBlacklisted(ip net.IP) bool {
+func (repository *Blacklist) IsInList(ip net.IP) bool {
 	conn := repository.DB.Connection()
 	err := conn.QueryRow("SELECT address FROM blacklist WHERE address >> ($1)", ip).Scan()
 

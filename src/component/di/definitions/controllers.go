@@ -33,7 +33,7 @@ func Controllers(configApp *config.Config) []di.Def {
 			Name:  "app.controller.login",
 			Scope: di.App,
 			Build: func(ctn di.Container) (interface{}, error) {
-				login := ctn.Get("app.service.login").(controller.LoginHandler)
+				login := ctn.Get("app.service.rate_limiter").(controller.LoginHandler)
 
 				return controller.NewLogin(login), nil
 			},

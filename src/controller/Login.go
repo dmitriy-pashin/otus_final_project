@@ -11,7 +11,7 @@ type Login struct {
 }
 
 type LoginHandler interface {
-	Login(ipNet net.IP, login string, password string) bool
+	LoginAttempt(ipNet net.IP, login string, password string) bool
 }
 
 func NewLogin(loginHandler LoginHandler) *Login {
@@ -30,7 +30,7 @@ func (cont *Login) ActionLogin(response http.ResponseWriter, request *http.Reque
 		return web.NewActionResult(web.DefaultFailContent, http.StatusBadRequest, err)
 	}
 
-	result := cont.loginHandler.Login(address, login, password)
+	result := cont.loginHandler.LoginAttempt(address, login, password)
 
 	if !result {
 		return web.NewActionResult(web.DefaultFailContent, http.StatusOK, nil)

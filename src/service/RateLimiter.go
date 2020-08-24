@@ -8,16 +8,17 @@ import (
 	"github.com/kevinms/leakybucket-go"
 )
 
-type Login struct {
+type RateLimiter struct {
 	loginBucketsCollector BucketsCollector
 	passBucketsCollector  BucketsCollector
 	ipBucketsCollector    BucketsCollector
-	repWhitelist          *repository.Whitelist
-	repBlacklist          *repository.Blacklist
+
+	repWhitelist repository.ListRepository
+	repBlacklist repository.ListRepository
 }
 
-func NewLogin(whitelist *repository.Whitelist, blacklist *repository.Blacklist, limits *config.Limits) *Login {
-	return &Login{
+func NewRateLimiter(whitelist repository.ListRepository, blacklist repository.ListRepository, limits *config.Limits) *RateLimiter {
+	return &RateLimiter{
 		loginBucketsCollector: NewBucketsCollector(limits.Login),
 		passBucketsCollector:  NewBucketsCollector(limits.Password),
 		ipBucketsCollector:    NewBucketsCollector(limits.IP),
@@ -26,13 +27,13 @@ func NewLogin(whitelist *repository.Whitelist, blacklist *repository.Blacklist, 
 	}
 }
 
-func (cont *Login) Login(ip net.IP, login string, password string) bool {
+func (cont *RateLimiter) LoginAttempt(ip net.IP, login string, password string) bool {
 	// TODO добавть кеширование
-	if cont.repBlacklist.IsBlacklisted(ip) {
+	if cont.repBlacklist.IsInList(ip) {
 		return false
 	}
 
-	if cont.repWhitelist.IsWhitelisted(ip) {
+	if cont.repWhitelist.IsInList(ip) {
 		return true
 	}
 
@@ -68,6 +69,5 @@ func NewBucketsCollector(limitPerMinute int) BucketsCollector {
 func (bc *BucketsCollector) Add(key string) bool {
 	n := bc.collector.Add(key, bc.elementWeight)
 
-	// fmt.Print("N = ", n, " Weight = ", bc.elementWeight, " CHECK: = ", n == bc.elementWeight, " COUNT: = ",bc.collector.Count(key), "\n")
 	return n == bc.elementWeight
 }

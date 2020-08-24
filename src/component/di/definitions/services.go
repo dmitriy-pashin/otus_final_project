@@ -29,13 +29,13 @@ func Services(configApp *config.Config) []di.Def {
 			},
 		},
 		{
-			Name:  "app.service.login",
+			Name:  "app.service.rate_limiter",
 			Scope: di.App,
 			Build: func(ctn di.Container) (interface{}, error) {
-				repWhitelist := ctn.Get("app.repository.whitelist").(*repository.Whitelist)
-				repBlacklist := ctn.Get("app.repository.blacklist").(*repository.Blacklist)
+				repWhitelist := ctn.Get("app.repository.whitelist").(repository.ListRepository)
+				repBlacklist := ctn.Get("app.repository.blacklist").(repository.ListRepository)
 
-				return service.NewLogin(repWhitelist, repBlacklist, configApp.Limits), nil
+				return service.NewRateLimiter(repWhitelist, repBlacklist, configApp.Limits), nil
 			},
 		},
 	}
