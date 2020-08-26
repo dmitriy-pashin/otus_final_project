@@ -18,11 +18,6 @@ func main() {
 	application := app.NewWeb(confApp, app.DefaultWebAppPort)
 
 	fmt.Printf("\nStarting %s app...\n", appName)
-	fmt.Printf("+%v", application)
-
-	fmt.Printf("+%v", application.Config())
-
-	fmt.Printf("%+v", confApp)
 
 	go app.WaitStopSignal()
 

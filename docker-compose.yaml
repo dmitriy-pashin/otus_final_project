@@ -1,0 +1,17 @@
+version: "3.7"
+services:
+  app:
+    build: .
+    depends_on:
+      - postgres
+    ports:
+      - 9000:9000
+
+  postgres:
+    image: postgres:11
+    environment:
+      POSTGRES_DB: antibf
+      POSTGRES_USER: otus
+      POSTGRES_PASSWORD: otus
+    ports:
+      - 5432:5432
